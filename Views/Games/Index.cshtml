@@ -1,0 +1,57 @@
+﻿@model IEnumerable<GamePlatform.Models.Game>
+
+@{
+    ViewData["Title"] = "Lista Gier";
+}
+
+<h1>Lista Gier</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">+ Dodaj nową grę</a>
+</p>
+
+<form asp-action="Index" method="get">
+    <div class="input-group mb-3" style="max-width:400px">
+        <input type="text" name="searchString"
+               value="@ViewData["CurrentFilter"]"
+               class="form-control"
+               placeholder="Szukaj po tytule..." />
+        <button class="btn btn-outline-secondary" type="submit">Szukaj</button>
+        <a asp-action="Index" class="btn btn-outline-danger">Resetuj</a>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["TitleSortParm"]">
+                    Tytuł
+                </a>
+            </th>
+            <th>Opis</th>
+            <th>Liczba graczy</th>
+            <th>Liczba osiągnięć</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@(item.Description ?? "Brak opisu")</td>
+                <td>@item.Players.Count</td>
+                <td>@item.Achievements.Count</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id"
+                       class="btn btn-sm btn-info">Szczegóły</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id"
+                       class="btn btn-sm btn-warning">Edytuj</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id"
+                       class="btn btn-sm btn-danger">Usuń</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

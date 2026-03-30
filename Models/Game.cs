@@ -15,7 +15,8 @@ namespace GamePlatform.Models
         [MaxLength(256)]
         public string Description { get; set; }
 
-        public ICollection<Player> Players { get; set; } = new List<Player>();
+        // Nawigacja do tabeli łączącej PlayerGame
+        public ICollection<PlayerGame> Players { get; set; } = new List<PlayerGame>();
 
         public ICollection<Achievement> Achievements { get; set; } = new List<Achievement>();
     }

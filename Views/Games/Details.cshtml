@@ -1,0 +1,55 @@
+﻿@model GamePlatform.Models.Game
+
+@{
+    ViewData["Title"] = "Szczegóły gry";
+}
+
+<h1>@Model.Title</h1>
+
+<dl class="row">
+    <dt class="col-sm-2">Tytuł</dt>
+    <dd class="col-sm-10">@Model.Title</dd>
+    <dt class="col-sm-2">Opis</dt>
+    <dd class="col-sm-10">@(Model.Description ?? "Brak opisu")</dd>
+</dl>
+
+<h3>Gracze (@Model.Players.Count)</h3>
+@if (Model.Players.Any())
+{
+    <ul>
+        @foreach (var playerGame in Model.Players)
+        {
+            <li>@playerGame.Player.Username</li>
+        }
+    </ul>
+}
+else
+{
+    <p class="text-muted">Brak przypisanych graczy.</p>
+}
+
+<h3>Osiągnięcia (@Model.Achievements.Count)</h3>
+@if (Model.Achievements.Any())
+{
+    <table class="table table-sm">
+        <thead>
+            <tr><th>Nazwa</th><th>Opis</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var ach in Model.Achievements)
+            {
+                <tr>
+                    <td>@ach.Name</td>
+                    <td>@ach.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="text-muted">Brak osiągnięć.</p>
+}
+
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edytuj</a>
+<a asp-action="Index" class="btn btn-secondary">Wróć do listy</a>

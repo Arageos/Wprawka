@@ -3,6 +3,7 @@ using GamePlatform.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Wprawka1.Migrations
 {
     [DbContext(typeof(GamePlatformContext))]
-    partial class GamePlatformContextModelSnapshot : ModelSnapshot
+    [Migration("20260330122001_AddDescriptionFields")]
+    partial class AddDescriptionFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,15 +100,15 @@ namespace Wprawka1.Migrations
 
             modelBuilder.Entity("GamePlatform.Models.PlayerGame", b =>
                 {
-                    b.Property<int>("PlayerId")
-                        .HasColumnType("int");
-
                     b.Property<int>("GameId")
                         .HasColumnType("int");
 
-                    b.HasKey("PlayerId", "GameId");
+                    b.Property<int>("PlayerId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("GameId");
+                    b.HasKey("GameId", "PlayerId");
+
+                    b.HasIndex("PlayerId");
 
                     b.ToTable("PlayerGame");
                 });
@@ -123,33 +126,22 @@ namespace Wprawka1.Migrations
 
             modelBuilder.Entity("GamePlatform.Models.PlayerGame", b =>
                 {
-                    b.HasOne("GamePlatform.Models.Game", "Game")
-                        .WithMany("Players")
+                    b.HasOne("GamePlatform.Models.Game", null)
+                        .WithMany()
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GamePlatform.Models.Player", "Player")
-                        .WithMany("Games")
+                    b.HasOne("GamePlatform.Models.Player", null)
+                        .WithMany()
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Game");
-
-                    b.Navigation("Player");
                 });
 
             modelBuilder.Entity("GamePlatform.Models.Game", b =>
                 {
                     b.Navigation("Achievements");
-
-                    b.Navigation("Players");
-                });
-
-            modelBuilder.Entity("GamePlatform.Models.Player", b =>
-                {
-                    b.Navigation("Games");
                 });
 #pragma warning restore 612, 618
         }

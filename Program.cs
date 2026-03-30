@@ -3,7 +3,7 @@ using GamePlatform.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Zamiana Razor Pages na MVC
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<GamePlatformContext>(options =>
@@ -11,7 +11,6 @@ builder.Services.AddDbContext<GamePlatformContext>(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

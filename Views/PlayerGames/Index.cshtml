@@ -1,0 +1,35 @@
+﻿@model IEnumerable<GamePlatform.Models.PlayerGame>
+
+@{
+    ViewData["Title"] = "Lista graczy w grach";
+}
+
+<h1>Lista graczy w grach</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Dodaj gracza do gry</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Gracz</th>
+            <th>Gra</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Player.Username</td>
+                <td>@item.Game.Title</td>
+                <td>
+                    <a asp-action="Edit" asp-route-playerId="@item.PlayerId" asp-route-gameId="@item.GameId" class="btn btn-sm btn-warning">Edytuj</a>
+                    <a asp-action="Details" asp-route-playerId="@item.PlayerId" asp-route-gameId="@item.GameId" class="btn btn-sm btn-info">Szczegóły</a>
+                    <a asp-action="Delete" asp-route-playerId="@item.PlayerId" asp-route-gameId="@item.GameId" class="btn btn-sm btn-danger">Usuń</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

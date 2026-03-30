@@ -16,10 +16,21 @@ namespace GamePlatform.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Player>()
-                .HasMany(e => e.Games)
-                .WithMany(e => e.Players)
-                .UsingEntity<PlayerGame>();
+            // Composite key dla PlayerGame
+            modelBuilder.Entity<PlayerGame>()
+                .HasKey(pg => new { pg.PlayerId, pg.GameId });
+
+            // Relacja PlayerGame -> Player
+            modelBuilder.Entity<PlayerGame>()
+                .HasOne(pg => pg.Player)
+                .WithMany(p => p.Games)
+                .HasForeignKey(pg => pg.PlayerId);
+
+            // Relacja PlayerGame -> Game
+            modelBuilder.Entity<PlayerGame>()
+                .HasOne(pg => pg.Game)
+                .WithMany(g => g.Players)
+                .HasForeignKey(pg => pg.GameId);
         }
     }
 }

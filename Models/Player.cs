@@ -15,6 +15,7 @@ namespace GamePlatform.Models
         [MaxLength(100)]
         public string Email { get; set; }
 
-        public ICollection<Game> Games { get; set; } = new List<Game>();
+        // Nawigacja do tabeli łączącej PlayerGame
+        public ICollection<PlayerGame> Games { get; set; } = new List<PlayerGame>();
     }
 }
