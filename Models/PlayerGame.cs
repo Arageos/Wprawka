@@ -7,8 +7,7 @@ namespace GamePlatform.Models
         public int PlayerId { get; set; }
         public int GameId { get; set; }
 
-        // Właściwości nawigacyjne
-        public Player? Player { get; set; }   // <-- nawigacja do gracza
-        public Game? Game { get; set; }       // <-- nawigacja do gry
+        public Player? Player { get; set; }
+        public Game? Game { get; set; }
     }
 }

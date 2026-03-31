@@ -10,12 +10,11 @@ namespace GamePlatform.Models
         [Required]
         [Column(TypeName = "varchar(50)")]
         [MaxLength(50)]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         [MaxLength(100)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
-        // Nawigacja do tabeli łączącej PlayerGame
         public ICollection<PlayerGame> Games { get; set; } = new List<PlayerGame>();
     }
 }

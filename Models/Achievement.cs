@@ -10,13 +10,13 @@ namespace GamePlatform.Models
         [Required]
         [Column(TypeName = "varchar(100)")]
         [MaxLength(100)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [MaxLength(256)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public int GameId { get; set; }
 
-        public virtual Game Game { get; set; }
+        public virtual Game? Game { get; set; }
     }
 }

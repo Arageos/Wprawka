@@ -10,12 +10,11 @@ namespace GamePlatform.Models
         [Required]
         [Column(TypeName = "varchar(100)")]
         [MaxLength(100)]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [MaxLength(256)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
-        // Nawigacja do tabeli łączącej PlayerGame
         public ICollection<PlayerGame> Players { get; set; } = new List<PlayerGame>();
 
         public ICollection<Achievement> Achievements { get; set; } = new List<Achievement>();
