@@ -2,7 +2,37 @@
     ViewData["Title"] = "Strona główna";
 }
 
-<h1>Witaj w GamePlatform!</h1>
-<p>Przejdź do <a asp-controller="Games" asp-action="Index">listy gier</a>.</p>
-<p>Przejdź do <a asp-controller="Players" asp-action="Index">listy graczy</a>.</p>
-<p>Przejdź do <a asp-controller="PlayerGames" asp-action="Index">listy graczy gry</a>.</p>
+<div class="text-center mt-4">
+    <h1 class="display-4">Witaj w GamePlatform!</h1>
+    <p class="lead text-muted">Zarządzaj grami, graczami i osiągnięciami</p>
+</div>
+
+<div class="row mt-5 justify-content-center">
+    <div class="col-md-3 mb-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">🎮 Gry</h5>
+                <p class="card-text text-muted">Przeglądaj i zarządzaj listą gier</p>
+                <a asp-controller="Games" asp-action="Index" class="btn btn-primary">Przejdź</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">👤 Gracze</h5>
+                <p class="card-text text-muted">Przeglądaj i zarządzaj graczami</p>
+                <a asp-controller="Players" asp-action="Index" class="btn btn-success">Przejdź</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">🏆 Gracze w grach</h5>
+                <p class="card-text text-muted">Sprawdź przypisania graczy do gier</p>
+                <a asp-controller="PlayerGames" asp-action="Index" class="btn btn-warning">Przejdź</a>
+            </div>
+        </div>
+    </div>
+</div>
