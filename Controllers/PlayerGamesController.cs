@@ -54,11 +54,34 @@ namespace Wprawka1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PlayerGame playerGame)
         {
+            // Sprawdź czy taka kombinacja już istnieje
+            bool alreadyExists = await _context.PlayerGame
+                .AnyAsync(pg => pg.PlayerId == playerGame.PlayerId
+                             && pg.GameId == playerGame.GameId);
+
+            if (alreadyExists)
+            {
+                ModelState.AddModelError("", "Ten gracz jest już przypisany do tej gry.");
+                ViewBag.PlayerId = new SelectList(_context.Player, "Id", "Username", playerGame.PlayerId);
+                ViewBag.GameId = new SelectList(_context.Game, "Id", "Title", playerGame.GameId);
+                return View(playerGame);
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Add(playerGame);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.PlayerGame.Add(playerGame);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Nie udało się zapisać. Sprawdź czy gracz i gra istnieją.");
+                    ViewBag.PlayerId = new SelectList(_context.Player, "Id", "Username", playerGame.PlayerId);
+                    ViewBag.GameId = new SelectList(_context.Game, "Id", "Title", playerGame.GameId);
+                    return View(playerGame);
+                }
             }
 
             ViewBag.PlayerId = new SelectList(_context.Player, "Id", "Username", playerGame.PlayerId);

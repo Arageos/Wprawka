@@ -3,7 +3,6 @@ using GamePlatform.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Zamiana Razor Pages na MVC
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<GamePlatformContext>(options =>
