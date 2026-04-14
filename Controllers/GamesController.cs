@@ -52,6 +52,7 @@ namespace Wprawka1.Controllers
             var game = await _context.Game
                 .Include(g => g.Achievements)
                 .Include(g => g.Players)
+                    .ThenInclude(pg => pg.Player)  // DODANE
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (game == null) return NotFound();
@@ -62,16 +63,16 @@ namespace Wprawka1.Controllers
         // GET: Games/Create
         public IActionResult Create()
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             return View();
         }
 
         // POST: Games/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Description")] Game game)
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             if (ModelState.IsValid)
             {
                 _context.Add(game);
@@ -84,6 +85,7 @@ namespace Wprawka1.Controllers
         // GET: Games/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             if (id == null)
             {
                 return NotFound();
@@ -104,6 +106,7 @@ namespace Wprawka1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description")] Game game)
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             if (id != game.Id)
             {
                 return NotFound();
@@ -135,6 +138,7 @@ namespace Wprawka1.Controllers
         // GET: Games/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             if (id == null)
             {
                 return NotFound();
@@ -155,6 +159,7 @@ namespace Wprawka1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             var game = await _context.Game.FindAsync(id);
             if (game != null)
             {
@@ -168,6 +173,11 @@ namespace Wprawka1.Controllers
         private bool GameExists(int id)
         {
             return _context.Game.Any(e => e.Id == id);
+        }
+
+        private bool IsLoggedIn()
+        {
+            return Request.Cookies.ContainsKey("UserId");
         }
     }
 }

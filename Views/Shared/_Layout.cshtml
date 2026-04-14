@@ -12,7 +12,7 @@
             <div class="container">
                 <a class="navbar-brand" asp-controller="Home" asp-action="Index">GamePlatform</a>
                 <div class="navbar-collapse">
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Games" asp-action="Index">Gry</a>
                         </li>
@@ -20,9 +20,21 @@
                             <a class="nav-link text-dark" asp-controller="Players" asp-action="Index">Gracze</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="PlayerGames" asp-action="Index">GraczeGry</a>
+                            <a class="nav-link text-dark" asp-controller="PlayerGames" asp-action="Index">Gracze w grach</a>
                         </li>
                     </ul>
+                    @if (Context.Request.Cookies.ContainsKey("UserId"))
+                    {
+                        <span class="navbar-text me-3">
+                            👤 @Context.Request.Cookies["Username"]
+                        </span>
+                        <a asp-controller="Auth" asp-action="Logout" class="btn btn-outline-danger btn-sm">Wyloguj</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Auth" asp-action="Login" class="btn btn-outline-primary btn-sm me-2">Zaloguj</a>
+                        <a asp-controller="Auth" asp-action="Register" class="btn btn-primary btn-sm">Rejestracja</a>
+                    }
                 </div>
             </div>
         </nav>

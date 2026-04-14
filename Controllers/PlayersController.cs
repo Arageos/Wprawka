@@ -46,16 +46,16 @@ namespace Wprawka1.Controllers
         // GET: Players/Create
         public IActionResult Create()
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             return View();
         }
 
         // POST: Players/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Username,Email")] Player player)
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             if (ModelState.IsValid)
             {
                 _context.Add(player);
@@ -68,6 +68,7 @@ namespace Wprawka1.Controllers
         // GET: Players/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             if (id == null)
             {
                 return NotFound();
@@ -82,12 +83,11 @@ namespace Wprawka1.Controllers
         }
 
         // POST: Players/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Username,Email")] Player player)
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             if (id != player.Id)
             {
                 return NotFound();
@@ -119,6 +119,7 @@ namespace Wprawka1.Controllers
         // GET: Players/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             if (id == null)
             {
                 return NotFound();
@@ -139,6 +140,7 @@ namespace Wprawka1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             var player = await _context.Player.FindAsync(id);
             if (player != null)
             {
@@ -152,6 +154,11 @@ namespace Wprawka1.Controllers
         private bool PlayerExists(int id)
         {
             return _context.Player.Any(e => e.Id == id);
+        }
+
+        private bool IsLoggedIn()
+        {
+            return Request.Cookies.ContainsKey("UserId");
         }
     }
 }

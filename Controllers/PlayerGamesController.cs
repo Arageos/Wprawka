@@ -44,6 +44,7 @@ namespace Wprawka1.Controllers
         // GET: PlayerGames/Create
         public IActionResult Create()
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             ViewBag.PlayerId = new SelectList(_context.Player, "Id", "Username");
             ViewBag.GameId = new SelectList(_context.Game, "Id", "Title");
             return View();
@@ -54,6 +55,7 @@ namespace Wprawka1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PlayerGame playerGame)
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             // Sprawdź czy taka kombinacja już istnieje
             bool alreadyExists = await _context.PlayerGame
                 .AnyAsync(pg => pg.PlayerId == playerGame.PlayerId
@@ -92,6 +94,7 @@ namespace Wprawka1.Controllers
         // GET: PlayerGames/Edit/5
         public async Task<IActionResult> Edit(int playerId, int gameId)
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             var playerGame = await _context.PlayerGame
                 .FirstOrDefaultAsync(pg => pg.PlayerId == playerId && pg.GameId == gameId);
 
@@ -107,6 +110,7 @@ namespace Wprawka1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int playerId, int gameId, PlayerGame playerGame)
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             if (playerId != playerGame.PlayerId || gameId != playerGame.GameId)
                 return NotFound();
 
@@ -135,6 +139,7 @@ namespace Wprawka1.Controllers
         // GET: PlayerGames/Delete/5
         public async Task<IActionResult> Delete(int playerId, int gameId)
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             var playerGame = await _context.PlayerGame
                 .Include(pg => pg.Player)
                 .Include(pg => pg.Game)
@@ -150,6 +155,7 @@ namespace Wprawka1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int playerId, int gameId)
         {
+            if (!IsLoggedIn()) return RedirectToAction("Login", "Auth");
             var playerGame = await _context.PlayerGame
                 .FirstOrDefaultAsync(pg => pg.PlayerId == playerId && pg.GameId == gameId);
 
@@ -165,6 +171,11 @@ namespace Wprawka1.Controllers
         private bool PlayerGameExists(int playerId, int gameId)
         {
             return _context.PlayerGame.Any(pg => pg.PlayerId == playerId && pg.GameId == gameId);
+        }
+
+        private bool IsLoggedIn()
+        {
+            return Request.Cookies.ContainsKey("UserId");
         }
     }
 }

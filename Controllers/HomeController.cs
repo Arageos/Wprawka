@@ -8,5 +8,7 @@ namespace GamePlatform.Controllers
         {
             return View();
         }
+
     }
+
 }
